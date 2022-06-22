@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Mail\IssueRequestSubmitted;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\IssuesImport;
 use App\Issues;
 use App\User;
 use Auth;
@@ -35,6 +37,13 @@ class IssuesController extends Controller
         \Mail::to($issue->email)->send(new IssueRequestSubmitted($issue));
         return "Record is created Successfully";
 
+    
+    }
+    public function importFromExcel(Request $request) 
+    {
+        Excel::import(new IssuesImport, $request->excelFile);
+        
+        return "SuccessFully";
     }
 
     
